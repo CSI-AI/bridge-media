@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bridge AI Office Publisher</title>
+<style>
+  :root{--bg:#0A0A14;--card:#12121f;--fg:#eef1f8;--muted:#a7adc0;--primary:#4F8CFF;--accent:#00D0C0;--line:#242536}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Malgun Gothic",sans-serif;line-height:1.65}
+  .wrap{max-width:820px;margin:0 auto;padding:40px 20px 80px}
+  header{display:flex;align-items:center;gap:16px;margin-bottom:8px}
+  .logo{width:64px;height:64px;border-radius:16px;background:linear-gradient(135deg,#1b2b55,#0e1730);display:flex;align-items:center;justify-content:center;border:1px solid var(--line)}
+  .logo span{font-weight:800;color:var(--accent);font-size:13px;letter-spacing:.5px}
+  h1{font-size:26px;margin:0}
+  .sub{color:var(--muted);font-size:14px;margin-top:2px}
+  h2{font-size:19px;margin:34px 0 10px;color:#fff}
+  p,li{color:#dfe3ef;font-size:15px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin-top:14px}
+  .muted{color:var(--muted)}
+  a{color:var(--primary)}
+  .pill{display:inline-block;background:#182238;border:1px solid var(--line);color:var(--accent);border-radius:999px;padding:3px 12px;font-size:12px;margin:2px 4px 2px 0}
+  footer{margin-top:44px;border-top:1px solid var(--line);padding-top:18px;color:var(--muted);font-size:13px}
+  code{background:#0e1526;border:1px solid var(--line);border-radius:6px;padding:1px 6px;font-size:13px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="logo"><span>BRIDGE</span></div>
+    <div>
+      <h1>Bridge AI Office Publisher</h1>
+      <div class="sub">First-party publishing tool for the Bridge AI Office channel — @bridgeaioffice</div>
+    </div>
+  </header>
+
+  <div class="card">
+    <p><strong>Bridge AI Office Publisher</strong> is a private, single-operator tool that publishes <strong>our own original short-form videos</strong> to <strong>our own social media accounts</strong>. It is operated by Bridge AI Office (브릿지 AI 운영실), a small-business content operation based in Busan, South Korea. It is <strong>not</strong> a multi-tenant service and does <strong>not</strong> act on behalf of any third-party users.</p>
+  </div>
+
+  <h2>What it does</h2>
+  <ul>
+    <li>Authenticates <strong>our own</strong> TikTok account (<code>@bridgeaioffice</code>) using <strong>TikTok Login Kit</strong>.</li>
+    <li>Uploads and publishes <strong>videos we created ourselves</strong> to that same account using the <strong>Content Posting API (Direct Post)</strong> with the <code>video.publish</code> scope.</li>
+    <li>Before each publish, the operator reviews and explicitly approves the creator info, caption, privacy level, and comment/duet/stitch settings.</li>
+  </ul>
+
+  <h2>Content</h2>
+  <p>Our videos are short educational clips (≤15s) about how a non-developer runs a small business with AI and automation. Characters and narration are AI-assisted and clearly disclosed. We do not post copyrighted third-party media, and we do not make exaggerated income or investment claims.</p>
+  <div>
+    <span class="pill">Single first-party account</span>
+    <span class="pill">Own original content</span>
+    <span class="pill">AI-assisted, disclosed</span>
+    <span class="pill">No third-party user data</span>
+  </div>
+
+  <h2>Scopes we request &amp; why</h2>
+  <ul>
+    <li><code>user.info.basic</code> / Login Kit — to sign in to and identify <em>our own</em> account for publishing.</li>
+    <li><code>video.publish</code> (Content Posting API, Direct Post) — to publish <em>our own</em> finished videos directly to <em>our own</em> account without manual re-uploading.</li>
+  </ul>
+
+  <h2>Legal</h2>
+  <ul>
+    <li><a href="./terms.html">Terms of Service</a></li>
+    <li><a href="./privacy.html">Privacy Policy</a></li>
+    <li>OAuth redirect: <a href="./tiktok/callback.html">./tiktok/callback.html</a></li>
+  </ul>
+
+  <footer>
+    Bridge AI Office (브릿지 AI 운영실) · Busan, South Korea · Contact: TikTok / Instagram direct message to <strong>@bridgeaioffice</strong>.
+    <br>This app publishes only to accounts owned and operated by us.
+  </footer>
+</div>
+</body>
+</html>
