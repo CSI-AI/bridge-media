@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bridge AI Office Publisher — TikTok Publish Flow (DEMO)</title>
+<style>
+  :root{--bg:#0A0A14;--card:#12121f;--fg:#eef1f8;--muted:#a7adc0;--primary:#4F8CFF;--accent:#00D0C0;--line:#242536;--ok:#5ad19a;--warn:#FFD24A;--red:#e0574b}
+  *{box-sizing:border-box}
+  html,body{overflow-x:hidden}
+  body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Malgun Gothic",sans-serif;line-height:1.6;-webkit-text-size-adjust:100%}
+  .demobar{position:sticky;top:0;z-index:5;background:repeating-linear-gradient(45deg,#3a2a00,#3a2a00 12px,#2e2200 12px,#2e2200 24px);color:var(--warn);font-weight:800;font-size:13px;letter-spacing:.4px;text-align:center;padding:8px 10px;border-bottom:1px solid #4a3a10}
+  .wrap{max-width:760px;margin:0 auto;padding:22px 18px calc(72px + env(safe-area-inset-bottom))}
+  .top{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .logo{width:44px;height:44px;flex:0 0 auto;border-radius:12px;background:linear-gradient(135deg,#1b2b55,#0e1730);display:flex;align-items:center;justify-content:center;border:1px solid var(--line)}
+  .logo span{font-weight:800;color:var(--accent);font-size:11px}
+  h1{font-size:19px;margin:0;line-height:1.2}
+  .sub{color:var(--muted);font-size:13px}
+  .steps{display:flex;gap:6px;flex-wrap:wrap;margin:16px 0 4px}
+  .dot{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;background:#182238;color:var(--muted);border:1px solid var(--line)}
+  .dot.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+  .dot.done{background:#173a2c;color:var(--ok);border-color:#1f5a42}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin-top:16px}
+  .stepno{color:var(--accent);font-weight:700;font-size:12px;letter-spacing:.5px;text-transform:uppercase}
+  h2{font-size:20px;margin:6px 0 10px}
+  p{font-size:15px;overflow-wrap:anywhere} .muted{color:var(--muted)}
+  .btn{display:inline-block;background:var(--primary);color:#fff;border:none;border-radius:10px;padding:11px 18px;font-size:15px;font-weight:600;cursor:pointer;text-decoration:none}
+  .btn.tiktok{background:#000;border:1px solid #333}
+  .btn.ghost{background:#182238;color:#dfe3ef;border:1px solid var(--line)}
+  .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:14px}
+  .kv{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid var(--line);font-size:14px}
+  .kv:last-child{border-bottom:0}
+  .kv .k{color:var(--muted)} .kv .v{font-weight:600;text-align:right;overflow-wrap:anywhere}
+  .pill{display:inline-block;border-radius:999px;padding:3px 12px;font-size:12px;border:1px solid var(--line)}
+  .pill.sel{background:#12324a;border-color:#1d5680;color:#bfe3ff}
+  .pill.off{background:#241318;border-color:#5a2530;color:#ffb3ad}
+  .pill.dis{opacity:.45;text-decoration:line-through}
+  .vid{display:flex;gap:12px;align-items:center;background:#0e1526;border:1px solid var(--line);border-radius:12px;padding:12px}
+  .thumb{width:64px;height:114px;border-radius:8px;background:linear-gradient(160deg,#12203f,#0b1122);border:1px solid var(--line);flex:0 0 auto;display:flex;align-items:center;justify-content:center;color:var(--accent);font-size:11px;font-weight:700;text-align:center}
+  label.chk{display:flex;gap:10px;align-items:flex-start;background:#0e1526;border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin-top:12px;cursor:pointer;font-size:14px}
+  label.chk input{margin-top:3px}
+  .status{font-weight:700}
+  .status.proc{color:var(--warn)} .status.pub{color:var(--ok)}
+  .note{background:#0e1526;border:1px dashed #33405e;border-radius:10px;padding:10px 12px;color:var(--muted);font-size:13px;margin-top:14px}
+  .nav{display:flex;justify-content:space-between;margin-top:22px;gap:10px}
+  code{background:#0e1526;border:1px solid var(--line);border-radius:6px;padding:1px 6px;font-size:13px;overflow-wrap:anywhere}
+  a{color:var(--primary)}
+  @media (max-width:480px){.wrap{padding:18px 14px calc(64px + env(safe-area-inset-bottom))}h2{font-size:18px}}
+</style>
+</head>
+<body>
+<div class="demobar">DEMO MODE — no real TikTok posting occurs. Sample data only. First-party account @bridgeaioffice.</div>
+<div class="wrap">
+  <div class="top">
+    <div class="logo"><span>BRIDGE</span></div>
+    <div>
+      <h1>Bridge AI Office Publisher</h1>
+      <div class="sub">TikTok publish flow — reviewer demo (@bridgeaioffice)</div>
+    </div>
+  </div>
+  <div class="steps" id="steps"></div>
+  <div id="stage"></div>
+  <div class="nav">
+    <button class="btn ghost" id="prev">← Back</button>
+    <button class="btn" id="next">Next →</button>
+  </div>
+  <div class="note">This is a self-contained demo for TikTok app review. It does not call TikTok, does not use real tokens, and never publishes. In real operation the order is: <code>creator_info/query → video/init (PULL_FROM_URL or upload) → status/fetch</code>, and posts are <b>SELF_ONLY</b> until the app is approved.</div>
+</div>
+
+<script>
+var STEPS = [
+  {t:'App intro', h:'Bridge AI Office Publisher',
+    html:'<p>A private, single-operator tool that publishes <b>our own</b> short videos to <b>our own</b> account <b>@bridgeaioffice</b>. Not a multi-tenant service; no third-party user data.</p>'+
+         '<div class="row"><a class="btn tiktok" href="#">Continue with TikTok Login</a></div>'+
+         '<div class="note">Scopes requested: <code>user.info.basic</code>, <code>video.publish</code>, <code>video.upload</code>.</div>'},
+  {t:'TikTok Login', h:'Continue with TikTok Login',
+    html:'<p>The operator signs in to <b>our own</b> TikTok account via Login Kit. Redirect URI:</p>'+
+         '<p><code>https://csi-ai.github.io/bridge-media/tiktok/callback.html</code></p>'+
+         '<div class="row"><a class="btn tiktok" href="#">Authorize @bridgeaioffice</a></div>'+
+         '<div class="note">DEMO: no real OAuth is performed. In production this opens TikTok\'s consent screen.</div>'},
+  {t:'Account confirmed', h:'Authorization complete (DEMO)',
+    html:'<div class="kv"><span class="k">Signed-in account</span><span class="v">@bridgeaioffice</span></div>'+
+         '<div class="kv"><span class="k">open_id</span><span class="v">demo-open-id-••••</span></div>'+
+         '<div class="kv"><span class="k">Scopes granted</span><span class="v">user.info.basic, video.publish, video.upload</span></div>'+
+         '<div class="note">Tokens are stored locally in gitignored files on the operator machine. No token is shown here.</div>'},
+  {t:'Select video', h:'Select an approved video',
+    html:'<div class="vid"><div class="thumb">EP002<br>9:16</div><div><div style="font-weight:700">AI 운영실이 중복 게시를 스스로 막은 날</div><div class="muted" style="font-size:13px">12.8s · 1080×1920 · our own original content</div></div></div>'+
+         '<div class="note">Only videos we created ourselves are listed. Selected: <b>EP002</b>.</div>'},
+  {t:'Creator info', h:'creator_info/query result',
+    html:'<p class="muted">Options below reflect the latest creator info from TikTok (privacy options, interaction availability).</p>'+
+         '<div class="kv"><span class="k">Creator</span><span class="v">Bridge AI Office (@bridgeaioffice)</span></div>'+
+         '<div class="kv"><span class="k">Privacy options</span><span class="v"><span class="pill dis">PUBLIC_TO_EVERYONE</span> <span class="pill">FOLLOWER_OF_CREATOR</span> <span class="pill sel">SELF_ONLY ✓</span></span></div>'+
+         '<div class="note">App is not yet approved → posting is forced to <b>SELF_ONLY</b> (private). Public option is disabled until review passes.</div>'},
+  {t:'Caption', h:'Review caption',
+    html:'<div class="kv"><span class="k">Caption</span><span class="v">AI 운영실이 중복 게시를 스스로 막은 날 #AI운영실 #자동화 #브릿지AI</span></div>'+
+         '<div class="note">Caption is shown exactly as it will be posted. AI-assisted content is disclosed; no exaggerated claims.</div>'},
+  {t:'Interaction', h:'Comment / Duet / Stitch',
+    html:'<div class="kv"><span class="k">Comments</span><span class="v"><span class="pill sel">Allowed</span></span></div>'+
+         '<div class="kv"><span class="k">Duet</span><span class="v"><span class="pill off">OFF</span></span></div>'+
+         '<div class="kv"><span class="k">Stitch</span><span class="v"><span class="pill off">OFF</span></span></div>'+
+         '<div class="note">Only options allowed by the current creator info are selectable. Defaults are conservative (Duet/Stitch OFF).</div>'},
+  {t:'Approval', h:'Explicit final approval',
+    html:'<div class="kv"><span class="k">Account</span><span class="v">@bridgeaioffice</span></div>'+
+         '<div class="kv"><span class="k">Privacy</span><span class="v">SELF_ONLY</span></div>'+
+         '<div class="kv"><span class="k">Video</span><span class="v">EP002</span></div>'+
+         '<label class="chk"><input type="checkbox" id="approve" checked> I have reviewed the creator info, caption, privacy, and interaction settings, and I approve publishing this single video to my own account.</label>'+
+         '<div class="note">Publishing only proceeds after this explicit operator approval (in the tool: the <code>--confirm-founder</code> gate).</div>'},
+  {t:'Direct Post', h:'Direct Post request (DEMO)',
+    html:'<p>On approval the tool calls Content Posting API (Direct Post):</p>'+
+         '<div class="kv"><span class="k">1. init</span><span class="v">POST /v2/post/publish/video/init/</span></div>'+
+         '<div class="kv"><span class="k">source</span><span class="v">PULL_FROM_URL (own public MP4)</span></div>'+
+         '<div class="kv"><span class="k">privacy_level</span><span class="v">SELF_ONLY</span></div>'+
+         '<div class="note">DEMO: request is simulated; no network call to TikTok is made and nothing is published.</div>'},
+  {t:'Status', h:'Processing → Published (DEMO)',
+    html:'<div class="kv"><span class="k">status/fetch</span><span class="v"><span class="status proc">PROCESSING</span> → <span class="status pub">PUBLISH_COMPLETE</span></span></div>'+
+         '<div class="kv"><span class="k">publish_id</span><span class="v">demo-publish-id-0001</span></div>'+
+         '<div class="kv"><span class="k">Ledger record</span><span class="v">state=PUBLISHED · postId=demo-0001 · SELF_ONLY</span></div>'+
+         '<div class="note">The tool records state, publish_id, URL, and time in publish-state.json (per-platform independent state).</div>'}
+];
+
+function render(i){
+  i = Math.max(0, Math.min(STEPS.length-1, i));
+  var s = STEPS[i];
+  var dots = STEPS.map(function(st,idx){var c = idx===i?'active':(idx<i?'done':'');return '<div class="dot '+c+'" title="'+st.t+'">'+(idx<i?'✓':(idx+1))+'</div>';}).join('');
+  document.getElementById('steps').innerHTML = dots;
+  document.getElementById('stage').innerHTML = '<div class="card"><div class="stepno">Step '+(i+1)+' of '+STEPS.length+' · '+s.t+'</div><h2>'+s.h+'</h2>'+s.html+'</div>';
+  document.getElementById('prev').style.visibility = i===0?'hidden':'visible';
+  document.getElementById('next').textContent = i===STEPS.length-1?'Restart':'Next →';
+  window.__step = i;
+  try{history.replaceState(null,'','?step='+(i+1));}catch(e){}
+}
+function getStart(){var m=/[?&]step=(\d+)/.exec(location.search);return m?(parseInt(m[1],10)-1):0;}
+document.getElementById('next').onclick=function(){var i=window.__step;render(i>=STEPS.length-1?0:i+1);};
+document.getElementById('prev').onclick=function(){render(window.__step-1);};
+render(getStart());
+</script>
+</body>
+</html>
